@@ -98,17 +98,11 @@ def get_false_word_indexes(data, percentage):
     return indexes
 
 
-def remove_single_words(data):
+def remove_single_words(dataframe):
     """
     Returns a single words from the dataframe
     """
-    indexes = []
-    for index, message in enumerate(data["title"]):
-        if len(message.split()) > 1:
-            continue
-        indexes.append(index)
-    return indexes
-
+    return [index for index, message in enumerate(dataframe["title"]) if len(message.split()) == 1]
 
 # In[766]:
 
@@ -155,6 +149,16 @@ print(
 
 def add_test_message(sentence):
     split_words = sentence.split()
+    choice = get_index_choice(split_words)
+    update_sentence = (
+        " ".join(split_words[:choice])
+        + " test "
+        + " ".join(split_words[choice:])
+    )
+    return update_sentence.strip()
+
+
+def get_index_choice(split_words):
     prob = random.random()
     if prob < 0.45:
         choice = 0
@@ -162,12 +166,7 @@ def add_test_message(sentence):
         choice = len(split_words)
     else:
         choice = random.randint(0, len(split_words))
-    update_sentence = (
-        " ".join(split_words[:choice])
-        + " test "
-        + " ".join(split_words[choice:])
-    )
-    return update_sentence.strip()
+    return choice, split_words
 
 
 # In[812]:
