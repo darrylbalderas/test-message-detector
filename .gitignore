@@ -3,3 +3,5 @@ venv/
 SMSSpamCollection
 .ipynb_checkpoints/
 __pycache__
+contentInfo.csv
+engageTest.csv
