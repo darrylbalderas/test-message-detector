@@ -6,6 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.externals import joblib
 
 
 def show_results(clf, x_train, x_test, y_train, y_test, df):
@@ -114,6 +115,8 @@ def main():
     clf = DecisionTreeClassifier(random_state=42, max_depth=64)
     clf = show_results(clf, xtrain, xtest, title_df["ytrain"], title_df["ytest"], df)
     show_sample_classifications(clf, cvec)
+    filename = 'finalized_model.sav'
+    joblib.dump(clf, filename)
 
 
 if __name__ == "__main__":
