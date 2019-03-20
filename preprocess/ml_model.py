@@ -12,7 +12,6 @@ from sklearn.externals import joblib
 def show_results(clf, x_train, x_test, y_train, y_test, df):
     clf = clf.fit(x_train, y_train)
     predictions = clf.predict(x_test)
-    # show_wrong_classifictions(predictions, y_test, df)
     print(classification_report(y_test, predictions))
     print(confusion_matrix(y_test, predictions))
     print(
@@ -90,12 +89,19 @@ def update_train_test_df(cvec, title_df):
     title_df['xtest'] = pd.DataFrame(cvec.transform(title_df['xtest']).todense())
 
 
+def load_ml_tools():
+    filename = 'finalized_model.sav'
+    cvec_filename = 'finalized_cvec.sav'
+    return joblib.load(filename), joblib.load(cvec_filename)
+
+
 def main():
     engage_test = pd.read_csv("engageTest.csv")
-    engage_test = engage_test.replace(np.nan, "")
+    engage_test = engage_test.replace(np.nan, "emptySt")
     spam_test = pd.read_csv("spamTest.csv")
-    spam_test = spam_test.replace(np.nan, "")
-    df = pd.concat([engage_test, spam_test])
+    spam_test = spam_test.replace(np.nan, "emptySt")
+    # df = pd.concat([engage_test, spam_test])
+    df = spam_test
     for x in range(50):
         df = df.sample(frac=1, random_state=42).reset_index(drop=True)
     title_df = split_train_test(df, "title")
@@ -116,7 +122,9 @@ def main():
     clf = show_results(clf, xtrain, xtest, title_df["ytrain"], title_df["ytest"], df)
     show_sample_classifications(clf, cvec)
     filename = 'finalized_model.sav'
+    cvec_filename = 'finalized_cvec.sav'
     joblib.dump(clf, filename)
+    joblib.dump(cvec, cvec_filename)
 
 
 if __name__ == "__main__":

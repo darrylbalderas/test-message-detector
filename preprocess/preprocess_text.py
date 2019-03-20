@@ -6,8 +6,8 @@ import random
 import re
 import pandas as pd
 
-nltk.download("words")
-nltk.download("stopwords")
+# nltk.download("words")
+# nltk.download("stopwords")
 english_words = dict.fromkeys(words.words(), None)
 stopwords_map = {word: 0 for word in stopwords.words("english")}
 
