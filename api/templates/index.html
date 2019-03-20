@@ -1,9 +1,70 @@
-<html>
-   <body>
-      <form action ="{{url_for('check_message')}}" method = "post">
-         <p>Enter Message:</p>
-         <p><input type = "text" name = "title" /></p>
-         <p><input type = "submit" value = "submit" /></p>
-      </form>
-   </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <title>Document</title>
+</head>
+<body>
+<div class="jumbotron vertical-center">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+            </div>
+            <div class="col-10">
+                <div class="row justify-content-md-center">
+                    <h1>DEMO</h1>
+                </div>
+                <div class="row justify-content-md-center">
+                    <form class="form-horizontal" action="{{url_for('check_message')}}" method="post">
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input type="text" class="form-control" id="title" name="title"
+                                   placeholder="Enter title">
+                        </div>
+                        <div class="form-group">
+                            <label for="subtitle">Subtitle</label>
+                            <input type="text" class="form-control" id="subtitle" name="subtitle"
+                                   placeholder="Enter Subtitle">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <input type="text" class="form-control" id="message" name="message"
+                                   placeholder="Enter Message">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+                <div class="row justify-content-md-center">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    {% if "test message" == message[1] %}
+                    <div class="justify-content-md-center alert alert-danger">
+                        {{ message[1] }}
+                    </div>
+                    {% endif %}
+
+                    {% if "not test message" == message[1] %}
+                    <div class="justify-content-md-center alert alert-success">
+                        {{ message[1] }}
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+            <div class="col">
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
 </html>
