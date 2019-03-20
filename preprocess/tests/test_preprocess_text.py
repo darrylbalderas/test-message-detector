@@ -204,3 +204,7 @@ class TestPreprocess(TestCase):
             preprocess_text.remove_single_characters("here ing n you"),
             "here ing  you",
         )
+
+    def test_remove_long_sentences(self):
+        self.assertEqual(preprocess_text.remove_long_sentences("Here is the boat"), "Here is the boat")
+        self.assertEqual(preprocess_text.remove_long_sentences("the the the the the the the the the the is"), "")

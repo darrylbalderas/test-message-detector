@@ -12,6 +12,7 @@ from sklearn.externals import joblib
 def show_results(clf, x_train, x_test, y_train, y_test, df):
     clf = clf.fit(x_train, y_train)
     predictions = clf.predict(x_test)
+    show_wrong_classifictions(predictions, y_test, df)
     print(classification_report(y_test, predictions))
     print(confusion_matrix(y_test, predictions))
     print(
@@ -100,8 +101,7 @@ def main():
     engage_test = engage_test.replace(np.nan, "emptySt")
     spam_test = pd.read_csv("spamTest.csv")
     spam_test = spam_test.replace(np.nan, "emptySt")
-    # df = pd.concat([engage_test, spam_test])
-    df = spam_test
+    df = pd.concat([engage_test, spam_test])
     for x in range(50):
         df = df.sample(frac=1, random_state=42).reset_index(drop=True)
     title_df = split_train_test(df, "title")

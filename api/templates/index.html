@@ -16,7 +16,23 @@
             </div>
             <div class="col-6">
                 <div class="row justify-content-md-center">
-                    <h1>DEMO</h1>
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    {% if "test" == message[1] %}
+                    <div class="justify-content-md-center alert alert-warning">
+                        {{ "potential test message".upper() }}
+                    </div>
+                    {% endif %}
+
+                    {% if "notest" == message[1] %}
+                    <div class="justify-content-md-center alert alert-success">
+                        {{ "no test message".upper() }}
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
                 </div>
                 <div class="row justify-content-md-center">
                     <div class="container">
@@ -37,29 +53,10 @@
                                        placeholder="Enter Message">
                             </div>
                             <div class="row justify-content-md-center">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </form>
                     </div>
-                </div>
-                <div class="row justify-content-md-center">
-                    {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages %}
-                    {% for message in messages %}
-                    {% if "test message" == message[1] %}
-                    <div class="justify-content-md-center alert alert-danger">
-                        {{ message[1] }}
-                    </div>
-                    {% endif %}
-
-                    {% if "not test message" == message[1] %}
-                    <div class="justify-content-md-center alert alert-success">
-                        {{ message[1] }}
-                    </div>
-                    {% endif %}
-                    {% endfor %}
-                    {% endif %}
-                    {% endwith %}
                 </div>
             </div>
             <div class="col">

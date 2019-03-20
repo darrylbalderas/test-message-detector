@@ -164,29 +164,58 @@ def create_scenario_four(messages):
 
 
 def create_scenario_five(messages):
+    """
+    Create fields that incorporate optional fields
+    """
     df = create_default_scenario(messages)
     df = shuffle(df, num_shuffles=30)
     for index in df.index:
         prob = random.random()
         choice = random.choice(df.columns)
-        if prob < 0.50:
-            columns = list(df.columns)
+        if prob < 0.33:
             df.loc[index][choice] = ""
-            columns.remove(choice)
-            for column in columns:
-                df.loc[index][column] = add_test_message(
-                    df.loc[index][column]
-                )
+        elif prob < 0.66:
+            for column in df.columns:
+                if column == choice:
+                    continue
+                df.loc[index][column] = ""
+
         else:
-            columns = list(df.columns)
-            df.loc[index][choice] = ""
-            columns.remove(choice)
-            choice = random.choice(columns)
-            df.loc[index][choice] = ""
-            columns.remove(choice)
-            df.loc[index][columns[0]] = add_test_message(
-                df.loc[index][columns[0]]
-            )
+            for column in df.columns:
+                if column == "message":
+                    continue
+                df.loc[index][column] = ""
+    return df
+
+
+def create_scenario_six(messages):
+    """
+    Create fields that incorporate optional fields and at least one field
+    has the word test
+    """
+    df = create_default_scenario(messages)
+    df = shuffle(df, num_shuffles=30)
+    for index in df.index:
+        prob = random.random()
+        choice = random.choice(df.columns)
+        if prob < 0.33:
+            for column in df.columns:
+                if column == choice:
+                    df.loc[index][column] = add_test_message(df.loc[index][column])
+                else:
+                    df.loc[index][column] = ""
+        elif prob < 0.66:
+            for column in df.columns:
+                if column == choice:
+                    df.loc[index][column] = ""
+                else:
+                    df.loc[index][column] = add_test_message(df.loc[index][column])
+        else:
+            for column in df.columns:
+                if column == "message":
+                    df.loc[index]["message"] = add_test_message(df.loc[index]["message"])
+                else:
+                    df.loc[index][column] = ""
     return df
 
 
@@ -214,3 +243,10 @@ def remove_single_characters(sentence):
             for word in sentence.split()
         ]
     ).strip()
+
+
+def remove_long_sentences(sentence):
+    if len(sentence.split()) > 10:
+        return ""
+    return sentence
+

@@ -23,9 +23,9 @@ def check_message():
         clf, cvec = ml.load_ml_tools()
         input = ml.convert_fields(title, subtitle, message, cvec)
         if clf.predict(input)[0] == 1:
-            flash("test message")
+            flash("test")
         else:
-            flash("not test message")
+            flash("notest")
     return redirect(url_for('homepage'))
 
 
